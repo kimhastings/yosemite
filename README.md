@@ -6,7 +6,7 @@ This project was created as an assignment for the Udacity Front-end Nanodegree p
 
 ## Using the Map
 
-Click [here](https://kimhastings.github.io/yosemite-map/) to open the map in your browser.
+Click [here](https://kimhastings.github.io/yosemite/) to open the map in your browser.
 
 ## Acknowledgments
 
