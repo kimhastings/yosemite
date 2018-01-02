@@ -16,7 +16,7 @@ Go to the URL localhost:8000 in your web browser
 If you get uncaught referrer error, remember to TEMPORARILY enable localhost for your API key [here](https://console.developers.google.com)
 Use CTRL-C to kill the server
 
-Click [here](https://kimhastings.github.io/yosemite-map/) to open the map in your browser.
+Click [here](https://kimhastings.github.io/yosemite/) to open the map in your browser.
 
 ## Acknowledgments
 
