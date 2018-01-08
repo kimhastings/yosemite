@@ -26,4 +26,4 @@ Paw icon borrowed from [Puppy Poppins](http://www.puppypoppins.co.uk/)
 
 Searchbar courtesy of [W3Schools](https://www.w3schools.com/howto/howto_css_searchbar.asp)
 
-Inspiration from these Udacity students: [Sentry71](https://github.com/Sentry71/neighborhood-map), [jshanks24](https://github.com/jshanks24/Udacity-Neighborhood-Map)
+Inspiration from these Udacity students: [Sentry71](https://github.com/Sentry71/neighborhood-map), [jshanks24](https://github.com/jshanks24/Udacity-Neighborhood-Map), [gmawji](https://github.com/gmawji/neighborhood-map)
