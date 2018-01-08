@@ -107,6 +107,7 @@ var map;
 
 var ViewModel = function() {
     var self = this;
+    var largeInfowindow = new google.maps.InfoWindow();
 
     this.initMap = function() {
         // Draw the map
@@ -131,6 +132,10 @@ var ViewModel = function() {
                 icon: dogIcon,
                 animation: google.maps.Animation.DROP
             }); 
+            // Create an onclick event to open the large infowindow at each marker.
+            newMarker.addListener('click', function() {
+                populateInfoWindow(this, largeInfowindow);
+            });
         });
     };
     this.initMap();
@@ -144,6 +149,21 @@ var ViewModel = function() {
 */
 };
 
+function populateInfoWindow(marker, infowindow) {
+    // Check to make sure the infowindow is not already opened on this marker.
+    if (infowindow.marker != marker) {
+        // Clear the infowindow content to give the streetview time to load.
+        infowindow.setContent('');
+        infowindow.marker = marker;
+        // Make sure the marker property is cleared if the infowindow is closed.
+        infowindow.addListener('closeclick', function() {
+          infowindow.marker = null;
+        });
+        infowindow.setContent('<div>' + marker.title + '</div>');
+        // Open the infowindow on the correct marker.
+        infowindow.open(map, marker);
+    }
+};
 
 /*
 When using KO, your view is simply your HTML document with declarative bindings to link it to the view model.
