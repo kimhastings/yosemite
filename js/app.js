@@ -7,6 +7,91 @@ Note 2: Creating your markers as a part of your ViewModel is allowed (and recomm
 
 */
 
+/* ======= Model (Markers) ======= */
+
+var Model = {
+    markers: [
+      {
+        title: 'Hite Cove Trail',
+        lat: 37.654436, 
+        lng: -119.887481,
+        highlight: ko.observable(false)
+      },
+      {
+        title: 'Merced River Trail (Briceburg)',
+        lat: 37.604710,  
+        lng: -119.968021,
+        highlight: ko.observable(false)
+      },
+      {
+        title: 'Merced River Trail (Railroad Flat)',
+        lat: 37.618932,  
+        lng: -120.019793,
+        highlight: ko.observable(false)
+      },
+      {
+        title: 'Stockton Creek Trail System',
+        lat: 37.503194,  
+        lng: -119.967228,
+        highlight: ko.observable(false)
+      },
+      {
+        title: 'Miami Mountain Trail',
+        lat: 37.417556,  
+        lng: -119.730950,
+        highlight: ko.observable(false)
+      },
+      {
+        title: 'Goat Mountain Trail',
+        lat: 37.291745,  
+        lng: -119.579649,
+        highlight: ko.observable(false)
+      },
+      {
+        title: 'Lewis Creek Trail',
+        lat: 37.403548,   
+        lng: -119.625869,
+        highlight: ko.observable(false)
+      },
+      {
+        title: 'Nelder Grove Trail System',
+        lat: 37.430436,   
+        lng: -119.584711,
+        highlight: ko.observable(false)
+      },
+      {
+        title: 'Preston Falls Trail',
+        lat: 37.878708,   
+        lng: -119.950472,
+        highlight: ko.observable(false)
+      },
+      {
+        title: 'Red Hills Trail System',
+        lat: 37.838470,   
+        lng: -119.730950,
+        highlight: ko.observable(false)
+      },
+      {
+        title: 'Table Mountain Trail (Jamestown)',
+        lat: 37.943824,    
+        lng: -120.462019,
+        highlight: ko.observable(false)
+      },
+      {
+        title: 'Table Mountain Trail (Prather)',
+        lat: 37.049427,    
+        lng: -119.565250,
+        highlight: ko.observable(false)
+      },
+      {
+        title: 'San Joaquin River Gorge Trail System',
+        lat: 37.082906,     
+        lng: -119.554113,
+        highlight: ko.observable(false)
+      },
+    ]
+};
+
 /* ======= ViewModel (Markers) ======= */
 
 /*
@@ -18,46 +103,51 @@ It’s not the persisted data model either - it holds the unsaved data the user 
 When using KO, your view models are pure JavaScript objects that hold no knowledge of HTML
 */
 
+var map;
 
-var markersViewModel = {
-    marker: null,
-    markers: [
-        {
-            title: '',
-            lat: 0,
-            lng: 0
-        }
-    ],
-    functionality: function () {}
-}
+var ViewModel = function() {
+    var self = this;
 
+    this.initMap = function() {
+        // Draw the map
+        var mapCanvas = document.getElementById('map');
+        var mapOptions = {
+            center: new google.maps.LatLng(37.6, -119.9),
+            zoom: 9
+        };
+        map = new google.maps.Map(mapCanvas, mapOptions);
 
-// Contains all the locations and search function.
-var locationsModel = {
+        // Custom marker icon
+        var dogIcon = {
+            url: "img/google-maps-paw-icon-173x300.png",
+            scaledSize: new google.maps.Size(20,32),
+        };
+        // Add the markers
+        Model.markers.forEach(function(marker) {
+            var newMarker = new google.maps.Marker({
+                position: {lat: marker.lat, lng: marker.lng},
+                map: map,
+                title: marker.title,
+                icon: dogIcon,
+                animation: google.maps.Animation.DROP
+            }); 
+        });
+    };
+    this.initMap();
 
-    locations:[
-    new Location('Penzeys Spices', 35.78961, -78.66032, '4cdd6918d4ecb1f701298548', 'Shopping'),
-    new Location('Raleigh Flea Market', 35.79499, -78.70719, '4ad4c00af964a5203ded20e3', 'Shopping'),
-    new Location('Reader\'s Corner', 35.79005, -78.67937, '4adc8051f964a520b92c21e3', 'Shopping'),
-    new Location('State Farmers Market', 35.76363, -78.66274, '4bb8979c3db7b713c965219a', 'Shopping'),
-    new Location('Capital RunWalk', 35.79039, -78.65867, '4b6b5120f964a52078002ce3', 'Shopping'),
-    new Location('Watson\'s Market Place & Flea Market', 35.76063, -78.61596, '4d615493e4fe5481a8618a9e', 'Shopping'),
-    new Location('Raleigh Denim', 35.77665, -78.64465, '4c84e24574d7b60ca66196d8', 'Shopping'),
-    new Location('Cloos\' Coney Island', 35.77770, -78.67485, '4afee1fdf964a520333122e3', 'Food'),
-    new Location('Franks Pizza', 35.77880, -78.60704, '4aecb1b2f964a52056ca21e3', 'Food'),
-    new Location('Snoopy\'s Hot Dogs & More', 35.80719, -78.62499, '4bf6c03013aed13a6823eaf7', 'Food'),
-    new Location('Clyde Cooper\'s Barbecue', 35.77630, -78.63831, '4b63170ef964a52039622ae3', 'Food'),
-    ],
-    query: ko.observable(''),
+   /*
+    this.something = ko.observable(initial_value);
+
+    this.doSomething = function() {
+        this.something(newValue);
+    }
+*/
 };
 
-
-var viewModel = function() {
-
-};
 
 /*
 When using KO, your view is simply your HTML document with declarative bindings to link it to the view model.
 */
-
-ko.applyBindings(new markersViewModel());
+function initialize() {
+    ko.applyBindings(new ViewModel());
+}
