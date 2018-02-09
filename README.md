@@ -24,6 +24,8 @@ Use CTRL-C to kill the server, then restart it, to see the results of edits.
 
 Paw icon borrowed from [Puppy Poppins](http://www.puppypoppins.co.uk/)
 
+Limit marker bounce: [Bounce a marker pin once](https://stackoverflow.com/questions/7339200/bounce-a-pin-in-google-maps-once)
+
 Searchbar courtesy of [W3Schools](https://www.w3schools.com/howto/howto_css_searchbar.asp)
 
 Campground information via the [Active Access Campground API](http://developer.active.com/docs/read/Campground_APIs)
