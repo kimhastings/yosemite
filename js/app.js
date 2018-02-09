@@ -167,22 +167,26 @@ function nearestWikiData(lat,lng) {
 
 function nearestCampground(lat,lng) {
   // Find the nearest public campground
-  var campgroundURL = 'http://api.amp.active.com/camping/campgrounds/?';
-  const petsAllowed = '&pets=3010';
-  var location = '&landmarkLat=' + lat.toString() + '&landmarkLong=' + lng.toString() + '&landmarkName=true';
-  const apiKey = '&api_key=wn4vajq2zg38849y3pryfjkz';
-
   $.ajax({
-    url: campgroundURL + petsAllowed + location + apiKey,
-    dataType: "xml",
+    type: 'GET',
+    url: 'http://api.amp.active.com/camping/campgrounds/',
+    data: {
+      pets: 3010,
+      landmarkLat: lat,
+      landmarkLong: lng,
+      landmarkName: 'true',
+      api_key: 'wn4vajq2zg38849y3pryfjkz'
+    },
+    dataType: 'xml',
     success: function(data) {
-      var results = data.responseXML;
-      console.log(results);
+      console.log(data);
+      var doc = $(data.documentElement);
+      console.log(doc[0].children[0].attributes[6]);
     },
     error: function() {
-        alert("Unable to get campground data");
+      console.log('Unable to retrieve campground data');
     }
-  })
+  });
 };
 
 function populateInfoWindow(marker, infowindow) {
@@ -200,7 +204,7 @@ function populateInfoWindow(marker, infowindow) {
         });        
         infowindow.setContent('<div>' + marker.title + '</div>');
         // Get the nearest Wikipedia article
-        nearestWikiData(marker.getPosition().lat(),marker.getPosition().lng());
+        nearestCampground(marker.getPosition().lat(),marker.getPosition().lng());
         // Open the infowindow on the correct marker.
         infowindow.open(map, marker);
     }
