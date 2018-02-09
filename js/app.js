@@ -149,6 +149,27 @@ var ViewModel = function() {
 */
 };
 
+function nearestCampground(lat,lng) {
+  // Find the nearest public campground
+  var campgroundURL = 'http://api.amp.active.com/camping/campgrounds/?';
+  const petsAllowed = '&pets=3010';
+  var location = '&landmarkLat=' + lat.toString() + '&landmarkLong=' + lng.toString() + '&landmarkName=true';
+  const apiKey = '&api_key=wn4vajq2zg38849y3pryfjkz';
+
+  var query = "select * from html where url='" + campgroundURL + petsAllowed + location + "';";
+  $.ajax({
+    url: campgroundURL + petsAllowed + location + apiKey,
+    dataType: "xml",
+    success: function(data) {
+      var results = data.responseXML;
+      console.log(results);
+    },
+    error: function() {
+        alert("Unable to get campground data");
+    }
+  })
+};
+
 function populateInfoWindow(marker, infowindow) {
     // Check to make sure the infowindow is not already opened on this marker.
     if (infowindow.marker != marker) {
@@ -160,6 +181,8 @@ function populateInfoWindow(marker, infowindow) {
           infowindow.marker = null;
         });
         infowindow.setContent('<div>' + marker.title + '</div>');
+        // Add info about the nearest campground
+        nearestCampground(marker.getPosition().lat(),marker.getPosition().lng());
         // Open the infowindow on the correct marker.
         infowindow.open(map, marker);
     }
