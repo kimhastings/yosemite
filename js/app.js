@@ -182,6 +182,9 @@ function nearestCampground(lat,lng) {
       console.log(data);
       var doc = $(data.documentElement);
       console.log(doc[0].children[0].attributes[6]);
+      var cgCode = doc[0].children[0].attributes[3].nodeValue;
+      var cgID = doc[0].children[0].attributes[5].nodeValue;
+      console.log("https://www.reserveamerica.com/campsiteSearch.do?contractCode=" + cgCode + "&parkId=" + cgID);
     },
     error: function() {
       console.log('Unable to retrieve campground data');
