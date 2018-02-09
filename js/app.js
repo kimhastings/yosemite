@@ -149,6 +149,21 @@ var ViewModel = function() {
 */
 };
 
+function nearestWikiData(lat,lng) {
+  var wikiUrl = "https://wikipedia.org/w/api.php?action=query&format=json";
+  var locationQuery = "&list=geosearch&gscoord=" + lat + "%7C" + lng + "&gsradius=10000&gslimit=4";
+
+  $.ajax({
+    url: wikiUrl + locationQuery,
+    success: function(response) {
+      console.log(response);
+    },
+    error: function() {
+        alert("Unable to get Wiki data");
+    }
+  })
+};
+
 function nearestCampground(lat,lng) {
   // Find the nearest public campground
   var campgroundURL = 'http://api.amp.active.com/camping/campgrounds/?';
@@ -156,7 +171,6 @@ function nearestCampground(lat,lng) {
   var location = '&landmarkLat=' + lat.toString() + '&landmarkLong=' + lng.toString() + '&landmarkName=true';
   const apiKey = '&api_key=wn4vajq2zg38849y3pryfjkz';
 
-  var query = "select * from html where url='" + campgroundURL + petsAllowed + location + "';";
   $.ajax({
     url: campgroundURL + petsAllowed + location + apiKey,
     dataType: "xml",
@@ -176,13 +190,16 @@ function populateInfoWindow(marker, infowindow) {
         // Clear the infowindow content to give the streetview time to load.
         infowindow.setContent('');
         infowindow.marker = marker;
+        // Bounce the marker three times
+        marker.setAnimation(google.maps.Animation.BOUNCE);
+        setTimeout(function(){ marker.setAnimation(null); }, 2100);        
         // Make sure the marker property is cleared if the infowindow is closed.
         infowindow.addListener('closeclick', function() {
           infowindow.marker = null;
-        });
+        });        
         infowindow.setContent('<div>' + marker.title + '</div>');
-        // Add info about the nearest campground
-        nearestCampground(marker.getPosition().lat(),marker.getPosition().lng());
+        // Get the nearest Wikipedia article
+        nearestWikiData(marker.getPosition().lat(),marker.getPosition().lng());
         // Open the infowindow on the correct marker.
         infowindow.open(map, marker);
     }
