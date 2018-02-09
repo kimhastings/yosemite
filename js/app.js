@@ -169,7 +169,7 @@ function nearestCampground(lat,lng) {
   // Find the nearest public campground
   $.ajax({
     type: 'GET',
-    url: 'http://api.amp.active.com/camping/campgrounds/',
+    url: 'https://api.amp.active.com/camping/campgrounds/',
     data: {
       pets: 3010,
       landmarkLat: lat,
