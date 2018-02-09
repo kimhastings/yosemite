@@ -134,6 +134,7 @@ var ViewModel = function() {
             }); 
             // Create an onclick event to open the large infowindow at each marker.
             newMarker.addListener('click', function() {
+                // Bounce the marker
                 populateInfoWindow(this, largeInfowindow);
             });
         });
@@ -187,12 +188,12 @@ function nearestCampground(lat,lng) {
 function populateInfoWindow(marker, infowindow) {
     // Check to make sure the infowindow is not already opened on this marker.
     if (infowindow.marker != marker) {
+        // Bounce the marker three times
+        marker.setAnimation(google.maps.Animation.BOUNCE);
+        setTimeout(function(){ marker.setAnimation(null); }, 2300);        
         // Clear the infowindow content to give the streetview time to load.
         infowindow.setContent('');
         infowindow.marker = marker;
-        // Bounce the marker three times
-        marker.setAnimation(google.maps.Animation.BOUNCE);
-        setTimeout(function(){ marker.setAnimation(null); }, 2100);        
         // Make sure the marker property is cleared if the infowindow is closed.
         infowindow.addListener('closeclick', function() {
           infowindow.marker = null;
