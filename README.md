@@ -18,13 +18,15 @@ Instructions for me:
 
 If you get an uncaught referrer error, remember to TEMPORARILY enable localhost for your API key [here](https://console.developers.google.com).
 
-Use CTRL-C to kill the server, then restart it, to see the results of edits.
+If you get a CORS error, install the [Allow-Control-Allow-Origin extension to Chrome](https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi), and make sure the icon for this extension is green.
+
+Use CTRL-C to kill the server if needed.
 
 ## Acknowledgments
 
 Paw icon borrowed from [Puppy Poppins](http://www.puppypoppins.co.uk/)
 
-Limit marker bounce: [Bounce a marker pin once](https://stackoverflow.com/questions/7339200/bounce-a-pin-in-google-maps-once)
+How to limit marker bounce: [Bounce a marker pin once](https://stackoverflow.com/questions/7339200/bounce-a-pin-in-google-maps-once)
 
 Searchbar courtesy of [W3Schools](https://www.w3schools.com/howto/howto_css_searchbar.asp)
 

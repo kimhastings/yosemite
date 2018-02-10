@@ -134,14 +134,13 @@ var ViewModel = function() {
             }); 
             // Create an onclick event to open the large infowindow at each marker.
             newMarker.addListener('click', function() {
-                // Bounce the marker
                 populateInfoWindow(this, largeInfowindow);
             });
         });
     };
     this.initMap();
 
-   /*
+/*
     this.something = ko.observable(initial_value);
 
     this.doSomething = function() {
@@ -150,41 +149,34 @@ var ViewModel = function() {
 */
 };
 
-function nearestWikiData(lat,lng) {
-  var wikiUrl = "https://wikipedia.org/w/api.php?action=query&format=json";
-  var locationQuery = "&list=geosearch&gscoord=" + lat + "%7C" + lng + "&gsradius=10000&gslimit=4";
+// Global var used to store the response from the call to the campground API
+var nearestCampground = null;
 
-  $.ajax({
-    url: wikiUrl + locationQuery,
-    success: function(response) {
-      console.log(response);
-    },
-    error: function() {
-        alert("Unable to get Wiki data");
-    }
-  })
-};
-
-function nearestCampground(lat,lng) {
-  // Find the nearest public campground
+function findNearestCampground(marker) {
+  // Find the nearest public campground using the Active Access campground searcg API
   $.ajax({
     type: 'GET',
     url: 'https://api.amp.active.com/camping/campgrounds/',
     data: {
       pets: 3010,
-      landmarkLat: lat,
-      landmarkLong: lng,
+      landmarkLat: marker.getPosition().lat(),
+      landmarkLong: marker.getPosition().lng(),
       landmarkName: 'true',
       api_key: 'wn4vajq2zg38849y3pryfjkz'
     },
     dataType: 'xml',
     success: function(data) {
-      console.log(data);
+      // Get the name and url from the first item in the response
+      // Campground API has no way to limit the number of items in the response
+      // It returns all campgrounds within 200 miles!
       var doc = $(data.documentElement);
-      console.log(doc[0].children[0].attributes[6]);
-      var cgCode = doc[0].children[0].attributes[3].nodeValue;
-      var cgID = doc[0].children[0].attributes[5].nodeValue;
-      console.log("https://www.reserveamerica.com/campsiteSearch.do?contractCode=" + cgCode + "&parkId=" + cgID);
+      var contractCode = doc[0].children[0].attributes[3].nodeValue;
+      var facilityID = doc[0].children[0].attributes[5].nodeValue;
+      nearestCampground = {
+        name: doc[0].children[0].attributes[6].nodeValue,
+        url: "https://www.reserveamerica.com/campsiteSearch.do?contractCode=" + contractCode + "&parkId=" + facilityID
+      }
+      console.log(nearestCampground);
     },
     error: function() {
       console.log('Unable to retrieve campground data');
@@ -193,21 +185,28 @@ function nearestCampground(lat,lng) {
 };
 
 function populateInfoWindow(marker, infowindow) {
+    // Bounce the marker three times
+    marker.setAnimation(google.maps.Animation.BOUNCE);
+    setTimeout(function(){ marker.setAnimation(null); }, 2100);   
+
     // Check to make sure the infowindow is not already opened on this marker.
     if (infowindow.marker != marker) {
-        // Bounce the marker three times
-        marker.setAnimation(google.maps.Animation.BOUNCE);
-        setTimeout(function(){ marker.setAnimation(null); }, 2300);        
         // Clear the infowindow content to give the streetview time to load.
         infowindow.setContent('');
         infowindow.marker = marker;
-        // Make sure the marker property is cleared if the infowindow is closed.
+        // Make sure the marker property will be cleared if the infowindow is closed.
         infowindow.addListener('closeclick', function() {
           infowindow.marker = null;
-        });        
-        infowindow.setContent('<div>' + marker.title + '</div>');
-        // Get the nearest Wikipedia article
-        nearestCampground(marker.getPosition().lat(),marker.getPosition().lng());
+        });
+        // Find the nearest campground (asynchronously!)
+        nearestCampground = null;
+        findNearestCampground(marker);
+        // Create the content for the infowindow  
+        var content = '<div>' + marker.title + '</br></br>CAMPGROUND INFO HERE</div>';
+        if (nearestCampground) {
+          content = content + '<div>' + nearestCampground.name + '</br>' + nearestCampground.url + '</div>'
+        }
+        infowindow.setContent(content);
         // Open the infowindow on the correct marker.
         infowindow.open(map, marker);
     }
