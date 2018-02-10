@@ -141,7 +141,15 @@ var ViewModel = function() {
     this.initMap();
 
 /*
-    this.something = ko.observable(initial_value);
+There are at least two places where you will need to use Knockout.js:
+1. The list view:
+- Knockout.js foreach binding to get the list of locations
+- Knockout.js click binding to animate the markers and open an infowindow.
+ 
+2. The filter function
+- Knockout.js observable for the query value
+
+this.something = ko.observable(initial_value);
 
     this.doSomething = function() {
         this.something(newValue);
@@ -149,67 +157,58 @@ var ViewModel = function() {
 */
 };
 
-// Global var used to store the response from the call to the campground API
-var nearestCampground = null;
-
-function findNearestCampground(marker) {
-  // Find the nearest public campground using the Active Access campground searcg API
-  $.ajax({
-    type: 'GET',
-    url: 'https://api.amp.active.com/camping/campgrounds/',
-    data: {
-      pets: 3010,
-      landmarkLat: marker.getPosition().lat(),
-      landmarkLong: marker.getPosition().lng(),
-      landmarkName: 'true',
-      api_key: 'wn4vajq2zg38849y3pryfjkz'
-    },
-    dataType: 'xml',
-    success: function(data) {
-      // Get the name and url from the first item in the response
-      // Campground API has no way to limit the number of items in the response
-      // It returns all campgrounds within 200 miles!
-      var doc = $(data.documentElement);
-      var contractCode = doc[0].children[0].attributes[3].nodeValue;
-      var facilityID = doc[0].children[0].attributes[5].nodeValue;
-      nearestCampground = {
-        name: doc[0].children[0].attributes[6].nodeValue,
-        url: "https://www.reserveamerica.com/campsiteSearch.do?contractCode=" + contractCode + "&parkId=" + facilityID
-      }
-      console.log(nearestCampground);
-    },
-    error: function() {
-      console.log('Unable to retrieve campground data');
-    }
-  });
-};
-
 function populateInfoWindow(marker, infowindow) {
-    // Bounce the marker three times
-    marker.setAnimation(google.maps.Animation.BOUNCE);
-    setTimeout(function(){ marker.setAnimation(null); }, 2100);   
-
     // Check to make sure the infowindow is not already opened on this marker.
     if (infowindow.marker != marker) {
-        // Clear the infowindow content to give the streetview time to load.
-        infowindow.setContent('');
-        infowindow.marker = marker;
-        // Make sure the marker property will be cleared if the infowindow is closed.
-        infowindow.addListener('closeclick', function() {
-          infowindow.marker = null;
-        });
-        // Find the nearest campground (asynchronously!)
-        nearestCampground = null;
-        findNearestCampground(marker);
-        // Create the content for the infowindow  
-        var content = '<div>' + marker.title + '</br></br>CAMPGROUND INFO HERE</div>';
-        if (nearestCampground) {
-          content = content + '<div>' + nearestCampground.name + '</br>' + nearestCampground.url + '</div>'
+      // Close the infowindow and update its marker
+      infowindow.close();
+      infowindow.marker = marker;
+      // Clear the marker property if the infowindow is closed.
+      infowindow.addListener('closeclick', function() {
+        infowindow.marker = null;
+      });
+
+      // Bounce the marker three times
+      marker.setAnimation(google.maps.Animation.BOUNCE);
+      setTimeout(function(){ marker.setAnimation(null); }, 2100);   
+
+      // Find the nearest public campground using the Active Access campground searcg API
+      $.ajax({
+        type: 'GET',
+        url: 'https://api.amp.active.com/camping/campgrounds/',
+        data: {
+          pets: 3010,
+          landmarkLat: marker.getPosition().lat(),
+          landmarkLong: marker.getPosition().lng(),
+          landmarkName: 'true',
+          api_key: 'wn4vajq2zg38849y3pryfjkz'
+        },
+        dataType: 'xml',
+        success: function(data) {
+          // Get the name and url from the first item in the response
+          // Campground API has no way to limit the number of items in the response
+          // It returns all campgrounds within 200 miles!
+          var doc = $(data.documentElement);
+          var contractCode = doc[0].children[0].attributes[3].nodeValue;
+          var facilityID = doc[0].children[0].attributes[5].nodeValue;
+          var nearestCampground = {
+            name: doc[0].children[0].attributes[6].nodeValue,
+            url: "https://www.reserveamerica.com/campsiteSearch.do?contractCode=" + contractCode + "&parkId=" + facilityID
+          }
+          console.log(nearestCampground);
+
+          // Format the infowindow  
+          infowindow.setContent('<div>' + marker.title + '</br></br>Nearest Campground: <a href=' + nearestCampground.url + '>' + nearestCampground.name + '</a></div>');
+          // Open the infowindow on the correct marker.
+          infowindow.open(map, marker);
+        },
+        error: function() {
+          console.log('Unable to retrieve campground data');
+          infowindow.setContent('<div>' + marker.title + '</br></br>UNABLE TO FIND CAMPGROUND INFO</div>');
+          infowindow.open(map, marker);
         }
-        infowindow.setContent(content);
-        // Open the infowindow on the correct marker.
-        infowindow.open(map, marker);
-    }
+      });
+    };
 };
 
 /*
