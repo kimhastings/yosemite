@@ -18,7 +18,7 @@ Instructions for me:
 
 If you get an uncaught referrer error, remember to TEMPORARILY enable localhost for your API key [here](https://console.developers.google.com).
 
-If you get a CORS error, install the [Allow-Control-Allow-Origin extension to Chrome](https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi), and make sure the icon for this extension is green.
+If you get a CORS error, install the [Allow-Control-Allow-Origin extension to Chrome](https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi), and make sure the icon for this extension is green (enabled). Might need to cycle the setting off and on (click the green icon).
 
 Use CTRL-C to kill the server if needed.
 

@@ -109,6 +109,32 @@ var ViewModel = function() {
     var self = this;
     var largeInfowindow = new google.maps.InfoWindow();
 
+    // Set up ko observables
+    self.showList = ko.observable(true);
+    self.markerArray = ko.observableArray();
+    self.query = ko.observable('');
+    // Filtered array contains items that match the user's query
+    self.filteredArray = ko.computed(function() {
+      return ko.utils.arrayFilter(self.markerArray(), function(marker) {
+        return marker.title.toLowerCase().indexOf(self.query().toLowerCase()) !== -1;
+      });
+    }, self);
+
+    /*
+     * Subscribing to the filteredArray changes will allow for showing or hiding
+     * the associated markers on the map itself.
+     */
+    self.filteredArray.subscribe(function() {
+      var compare = ko.utils.compareArrays(self.markerArray(), self.filteredArray());
+      ko.utils.arrayForEach(compare, function(marker) {
+        if (marker.status === 'deleted') {
+          marker.value.setMap(null);
+        } else {
+          marker.value.setMap(map);
+        }
+      });
+    });
+
     this.initMap = function() {
         // Draw the map
         var mapCanvas = document.getElementById('map');
@@ -136,6 +162,8 @@ var ViewModel = function() {
             newMarker.addListener('click', function() {
                 populateInfoWindow(this, largeInfowindow);
             });
+            // Add marker to observable array
+            self.markerArray.push(newMarker);
         });
     };
     this.initMap();
@@ -169,6 +197,7 @@ function populateInfoWindow(marker, infowindow) {
       });
 
       // Bounce the marker three times
+      map.panTo(marker.getPosition());
       marker.setAnimation(google.maps.Animation.BOUNCE);
       setTimeout(function(){ marker.setAnimation(null); }, 2100);   
 
@@ -214,6 +243,7 @@ function populateInfoWindow(marker, infowindow) {
 /*
 When using KO, your view is simply your HTML document with declarative bindings to link it to the view model.
 */
+
 function initialize() {
     ko.applyBindings(new ViewModel());
 }
