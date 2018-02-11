@@ -22,10 +22,11 @@ https://www.w3schools.com/bootstrap/bootstrap_ref_js_dropdown.asp
         <div class="topnav">
             <a class="active" href="#home">Great Dog Hikes Near Yosemite</a>
             <a href="#about">About</a>
-            <div class="dropdown">
-                <button onclick="myFunction()" class="dropbtn">Show/Hide List</button>
-                <div id="myDropdown" class="dropdown-content">
-                    <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
+        </div>
+        <div class="dropdown">
+                <!-- <button onclick="myFunction()" class="dropbtn">Filter Hikes</button> -->
+                <div id="myDropdown" class="dropdown-content show">
+                    <input type="text" placeholder="Filter.." id="myInput" onkeyup="filterFunction()">
                     <a href="#about">About</a>
                     <a href="#base">Base</a>
                     <a href="#blog">Blog</a>
@@ -34,7 +35,6 @@ https://www.w3schools.com/bootstrap/bootstrap_ref_js_dropdown.asp
                     <a href="#support">Support</a>
                     <a href="#tools">Tools</a>
                 </div>
-            </div>
         </div>
 
 <!--
