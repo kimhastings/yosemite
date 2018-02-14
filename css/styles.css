@@ -49,6 +49,15 @@ html, body {
   font-size: 17px;
 }
 
+.topnav button {
+  float: right;
+  padding: 6px;
+  margin-top: 8px;
+  margin-right: 16px;
+  border: none;
+  font-size: 17px;
+}
+
 /* Style the search/filter dropdown */
 .dropbtn {
   background-color: #4CAF50;

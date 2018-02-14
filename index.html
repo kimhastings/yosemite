@@ -22,9 +22,9 @@ https://www.w3schools.com/bootstrap/bootstrap_ref_js_dropdown.asp
         <div class="topnav">
             <a class="active" href="#home">Great Dog Hikes Near Yosemite</a>
             <a href="#about">About</a>
+            <button onclick="myFunction()" class="dropbtn">Filter Hikes</button>
         </div>
         <div class="dropdown">
-                <!-- <button onclick="myFunction()" class="dropbtn">Filter Hikes</button> -->
                 <div id="myDropdown" class="dropdown-content show">
                     <input type="text" placeholder="Filter.." id="myInput" onkeyup="filterFunction()">
                     <a href="#about">About</a>
@@ -36,7 +36,7 @@ https://www.w3schools.com/bootstrap/bootstrap_ref_js_dropdown.asp
                     <a href="#tools">Tools</a>
                 </div>
         </div>
-
+        <div id="map"></div>
 <!--
         <div id="list">
             <input id="search" type="search" data-bind="textInput: query" autocomplete="off" />
@@ -47,7 +47,6 @@ https://www.w3schools.com/bootstrap/bootstrap_ref_js_dropdown.asp
         </div>
 -->  
                                                           
-        <div id="map"></div>
         <script>
         /* When the user clicks on the button,
         toggle between hiding and showing the dropdown content */
