@@ -113,6 +113,7 @@ var ViewModel = function() {
     self.showList = ko.observable(true);
     self.markerArray = ko.observableArray();
     self.query = ko.observable('');
+
     // Filtered array contains items that match the user's query
     self.filteredArray = ko.computed(function() {
       return ko.utils.arrayFilter(self.markerArray(), function(marker) {
@@ -120,10 +121,7 @@ var ViewModel = function() {
       });
     }, self);
 
-    /*
-     * Subscribing to the filteredArray changes will allow for showing or hiding
-     * the associated markers on the map itself.
-     */
+    // Show/hide markers on map when contents of filtered array changes
     self.filteredArray.subscribe(function() {
       var compare = ko.utils.compareArrays(self.markerArray(), self.filteredArray());
       ko.utils.arrayForEach(compare, function(marker) {
@@ -158,7 +156,7 @@ var ViewModel = function() {
                 icon: dogIcon,
                 animation: google.maps.Animation.DROP
             }); 
-            // Create an onclick event to open the large infowindow at each marker.
+            // Create an onclick event at each marker to open the large infowindow.
             newMarker.addListener('click', function() {
                 populateInfoWindow(this, largeInfowindow);
             });
@@ -196,12 +194,7 @@ function populateInfoWindow(marker, infowindow) {
         infowindow.marker = null;
       });
 
-      // Bounce the marker three times
-      map.panTo(marker.getPosition());
-      marker.setAnimation(google.maps.Animation.BOUNCE);
-      setTimeout(function(){ marker.setAnimation(null); }, 2100);   
-
-      // Find the nearest public campground using the Active Access campground searcg API
+      // Find the nearest public campground using the Active Access campground search API
       $.ajax({
         type: 'GET',
         url: 'https://api.amp.active.com/camping/campgrounds/',
@@ -237,6 +230,11 @@ function populateInfoWindow(marker, infowindow) {
           infowindow.open(map, marker);
         }
       });
+
+      // Bounce the marker three times
+      // map.panTo(marker.getPosition());
+      marker.setAnimation(google.maps.Animation.BOUNCE);
+      setTimeout(function(){ marker.setAnimation(null); }, 2100);   
     };
 };
 

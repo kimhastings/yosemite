@@ -10,10 +10,10 @@ https://www.w3schools.com/bootstrap/bootstrap_ref_js_dropdown.asp
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Yosemite Recreation Map</title>
+        <title>Yosemite Dog Hikes Map</title>
         <meta name="viewport" content="initial-scale=1.0 user-scalable=no">
         <meta charset="utf-8">
-        <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="css/styles.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
         <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>        
@@ -21,18 +21,19 @@ https://www.w3schools.com/bootstrap/bootstrap_ref_js_dropdown.asp
     <body>
         <div class="topnav">
             <a class="active" href="#home">Great Dog Hikes Near Yosemite</a>
-            <!-- <a href="#about">About</a> -->
-            <button onclick="toggleDropdown()" class="dropbtn">&#9776;</button>
+            <a href="#about">About</a>
+            <button onclick="myFunction()" class="dropbtn">&#9776;</button>
         </div>
         <div class="dropdown">
-            <div id="hikeList" class="dropdown-content">
-                <input type="text" placeholder="Filter.." id="myInput" onkeyup="filterFunction()">
-                <ul id="hikes" data-bind="foreach: markerArray"></ul>
-                    <li class="list-item" data-bind="text: title"></li>
-                </ul>
-            </div>
+                <!-- <button onclick="myFunction()" class="dropbtn">Filter Hikes</button> -->
+                <div id="dropdownMenu" class="dropdown-content">
+                    <input id="filter" placeholder="Filter.." type="search" data-bind="textInput: query" autocomplete="off">
+                    <ul id="hikeList" data-bind="foreach: filteredArray">
+                        <li class="list-item" data-bind="text: title"></li>
+                    </ul>
+                </div>
         </div>
-        <div id="map"></div>
+
 <!--
         <div id="list">
             <input id="search" type="search" data-bind="textInput: query" autocomplete="off" />
@@ -43,18 +44,19 @@ https://www.w3schools.com/bootstrap/bootstrap_ref_js_dropdown.asp
         </div>
 -->  
                                                           
+        <div id="map"></div>
         <script>
         /* When the user clicks on the button,
         toggle between hiding and showing the dropdown content */
-        function toggleDropdown() {
-           document.getElementById("hikeList").classList.toggle("show");
+        function myFunction() {
+           document.getElementById("dropdownMenu").classList.toggle("show");
         }
         
         function filterFunction() {
             var input, filter, ul, li, a, i;
-            input = document.getElementById("myInput");
+            input = document.getElementById("filter");
             filter = input.value.toUpperCase();
-            div = document.getElementById("myDropdown");
+            div = document.getElementById("dropdownMenu");
             a = div.getElementsByTagName("a");
             for (i = 0; i < a.length; i++) {
                 if (a[i].innerHTML.toUpperCase().indexOf(filter) > -1) {
