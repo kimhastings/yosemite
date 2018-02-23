@@ -92,29 +92,18 @@ var Model = {
     ]
 };
 
-/* ======= ViewModel (Markers) ======= */
-
-/*
-For example, if you’re implementing a list editor, 
-your view model would be an object holding a list of items, and exposing methods to add and remove items.
-
-Note that this is not the UI itself: it doesn’t have any concept of buttons or display styles. 
-It’s not the persisted data model either - it holds the unsaved data the user is working with. 
-When using KO, your view models are pure JavaScript objects that hold no knowledge of HTML
-*/
+/* ======= ViewModel ======= */
 
 var map;
 
 var ViewModel = function() {
     var self = this;
-    var largeInfowindow = new google.maps.InfoWindow();
 
-    // Set up ko observables
-    self.showList = ko.observable(true);
+    // KO variables to store list of markers and filter query
     self.markerArray = ko.observableArray();
     self.query = ko.observable('');
 
-    // Filtered array contains items that match the user's query
+    // KO filtered array contains items that match the user's query
     self.filteredArray = ko.computed(function() {
       return ko.utils.arrayFilter(self.markerArray(), function(marker) {
         return marker.title.toLowerCase().indexOf(self.query().toLowerCase()) !== -1;
@@ -132,6 +121,20 @@ var ViewModel = function() {
         }
       });
     });
+
+    // KO variable and function to show/hide list
+    self.showList = ko.observable(false);
+    self.toggleList = function() {
+      self.showList(!self.showList());
+    };
+
+    // Helper function to highlight marker on map when a list item is clicked
+    self.selectMarker = function(listItem) {
+      google.maps.event.trigger(listItem, 'click');
+    };
+
+    // Build the initial map with all markers displayed
+    var largeInfowindow = new google.maps.InfoWindow();
 
     this.initMap = function() {
         // Draw the map
@@ -165,22 +168,6 @@ var ViewModel = function() {
         });
     };
     this.initMap();
-
-/*
-There are at least two places where you will need to use Knockout.js:
-1. The list view:
-- Knockout.js foreach binding to get the list of locations
-- Knockout.js click binding to animate the markers and open an infowindow.
- 
-2. The filter function
-- Knockout.js observable for the query value
-
-this.something = ko.observable(initial_value);
-
-    this.doSomething = function() {
-        this.something(newValue);
-    }
-*/
 };
 
 function populateInfoWindow(marker, infowindow) {
@@ -208,7 +195,7 @@ function populateInfoWindow(marker, infowindow) {
         dataType: 'xml',
         success: function(data) {
           // Get the name and url from the first item in the response
-          // Campground API has no way to limit the number of items in the response
+          // NOTE: Campground API has no way to limit the number of items in the response
           // It returns all campgrounds within 200 miles!
           var doc = $(data.documentElement);
           var contractCode = doc[0].children[0].attributes[3].nodeValue;
@@ -237,10 +224,6 @@ function populateInfoWindow(marker, infowindow) {
       setTimeout(function(){ marker.setAnimation(null); }, 2100);   
     };
 };
-
-/*
-When using KO, your view is simply your HTML document with declarative bindings to link it to the view model.
-*/
 
 function initialize() {
     ko.applyBindings(new ViewModel());

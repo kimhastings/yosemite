@@ -22,14 +22,13 @@ https://www.w3schools.com/bootstrap/bootstrap_ref_js_dropdown.asp
         <div class="topnav">
             <a class="active" href="#home">Great Dog Hikes Near Yosemite</a>
             <a href="#about">About</a>
-            <button onclick="myFunction()" class="dropbtn">&#9776;</button>
+            <button data-bind="click: $root.toggleList" class="dropbtn">&#9776;</button>
         </div>
-        <div class="dropdown">
-                <!-- <button onclick="myFunction()" class="dropbtn">Filter Hikes</button> -->
-                <div id="dropdownMenu" class="dropdown-content">
+        <div class="dropdown" data-bind="visible: $root.showList">
+                <div id="dropdownMenu" class="dropdown-content show">
                     <input id="filter" placeholder="Filter.." type="search" data-bind="textInput: query" autocomplete="off">
                     <ul id="hikeList" data-bind="foreach: filteredArray">
-                        <li class="list-item" data-bind="text: title"></li>
+                        <li class="list-item" data-bind="text: title, click: $parent.selectMarker"></li>
                     </ul>
                 </div>
         </div>
