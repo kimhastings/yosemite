@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Dog Hikes Near Yosemite > Home</title>
+        <title>Dog Hikes Near Yosemite</title>
         <meta name="viewport" content="initial-scale=1.0 user-scalable=no">
         <meta charset="utf-8">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -13,9 +13,37 @@
     <body>
         <div class="topnav">
             <a class="active" href="#home">Dog Hikes Near Yosemite</a>
-            <a href="#" data-toggle="popover" data-placement="bottom" data-trigger="focus" title="Popover Header" data-content="Some content inside the popover">About</a>
+            <a href="#" data-toggle="modal" data-target="#aboutModal">About</a>
             <button data-bind="click: $root.toggleList" class="dropbtn">&#9776;</button>
         </div>
+
+<!-- Modal -->
+<div id="aboutModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Dogs and Yosemite</h4>
+      </div>
+      <div class="modal-body">
+        <p>
+            Yosemite is a great place to visit, but not so much so for dogs, no matter how well-mannered they are. 
+            Sadly, dogs are not allowed on trails in the national park.
+            This map shows hikes near Yosemite, but outside the park boundary, where dogs are welcome.
+            Happy hiking!
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
         <div class="dropdown" data-bind="visible: $root.showList">
                 <div id="dropdownMenu" class="dropdown-content show">
                     <input id="filter" placeholder="Filter.." type="search" data-bind="textInput: query" autocomplete="off">

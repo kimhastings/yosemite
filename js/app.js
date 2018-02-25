@@ -1,12 +1,3 @@
-/*
-Knockout must be used to handle the list, filter, and any other information on the page that is subject to changing state. 
-Things that should not be handled by Knockout: anything the Maps API is used for, creating markers, 
-tracking click events on markers, making the map, refreshing the map. 
-Note 1: Tracking click events on list items should be handled with Knockout. 
-Note 2: Creating your markers as a part of your ViewModel is allowed (and recommended). Creating them as Knockout observables is not.
-
-*/
-
 /* ======= Model (Markers) ======= */
 
 var Model = {
@@ -15,99 +6,85 @@ var Model = {
         title: 'Ahwahnee Hills Park Trails',
         url:'https://www.yosemitehikes.com/not-yosemite/ahwahnee-park/ahwahnee-park.htm',
         lat: 37.380380, 
-        lng: -119.731692,
-        highlight: ko.observable(false)
+        lng: -119.731692
       },
       {
         title: 'Hite Cove Trail',
         url:'https://www.yosemitehikes.com/not-yosemite/hite-cove/hite-cove.htm',
         lat: 37.654436, 
-        lng: -119.887481,
-        highlight: ko.observable(false)
+        lng: -119.887481
       },
       {
         title: 'Merced River Trail (Briceburg)',
         url:'https://www.blm.gov/visit/merced-river',
         lat: 37.604710,  
-        lng: -119.968021,
-        highlight: ko.observable(false)
+        lng: -119.968021
       },
       {
         title: 'Merced River Trail (Railroad Flat)',
         url: 'https://www.blm.gov/visit/merced-river',
         lat: 37.618932,  
-        lng: -120.019793,
-        highlight: ko.observable(false)
+        lng: -120.019793
       },
       {
         title: 'Stockton Creek Trail System',
         url: 'https://sierrafoothill.org/stockton-creek-preserve/',
         lat: 37.503194,  
-        lng: -119.967228,
-        highlight: ko.observable(false)
+        lng: -119.967228
       },
       {
         title: 'Miami Mountain Trail',
         url: 'http://www.fire-lookouts.org/cali/miami_mtn/index.htm',
         lat: 37.417556,  
-        lng: -119.730950,
-        highlight: ko.observable(false)
+        lng: -119.730950
       },
       {
         title: 'Goat Mountain Trail',
         url: 'http://www.nhlr.org/lookouts/us/ca/goat-mountain-lookout/',
         lat: 37.291745,  
-        lng: -119.579649,
-        highlight: ko.observable(false)
+        lng: -119.579649
       },
       {
         title: 'Lewis Creek Trail',
         url: 'https://www.yosemitehikes.com/not-yosemite/lewis-creek/lewis-creek.htm',
         lat: 37.403548,   
-        lng: -119.625869,
-        highlight: ko.observable(false)
+        lng: -119.625869
       },
       {
         title: 'Nelder Grove Trail System',
         url: 'https://www.yosemitehikes.com/not-yosemite/nelder-grove/nelder-grove.htm',
         lat: 37.430436,   
-        lng: -119.584711,
-        highlight: ko.observable(false)
+        lng: -119.584711
       },
       {
         title: 'Preston Falls Trail',
         url: 'https://www.fs.usda.gov/recarea/stanislaus/recarea/?recid=14967',
         lat: 37.878708,   
-        lng: -119.950472,
-        highlight: ko.observable(false)
+        lng: -119.950472
       },
       {
         title: 'Red Hills Trail System',
         url: 'https://www.blm.gov/visit/red-hills',
         lat: 37.838470,   
-        lng: -119.730950,
-        highlight: ko.observable(false)
+        lng: -119.730950
       },
       {
         title: 'Table Mountain Trail (Jamestown)',
         url:'https://www.tchistory.org/tchistory/Wonders_9.htm',
         lat: 37.943824,    
-        lng: -120.462019,
-        highlight: ko.observable(false)
+        lng: -120.462019
       },
       {
         title: 'Table Mountain Trail (Prather)',
         url: 'https://sierrafoothill.org/ruth-mckenzie-table-mountain-preserve/',
         lat: 37.049427,    
-        lng: -119.565250,
-        highlight: ko.observable(false)
+        lng: -119.565250
       },
       {
         title: 'San Joaquin River Gorge Trail System',
         url: 'https://www.blm.gov/visit/san-joaquin-river-gorge-recreation-area',
         lat: 37.082906,     
-        lng: -119.554113,
-        highlight: ko.observable(false)
+        lng: -119.554113
       },
     ]
 };
@@ -229,21 +206,21 @@ function populateInfoWindow(marker, infowindow) {
           console.log(nearestCampground);
 
           // Format the infowindow
-          var link = '</br></br><a href="' + marker.url +  '" target="_blank">Click for details about this hike</a>' 
+          var link = '</br></br><a href="' + marker.url +  '" target="_blank">Click here for details about this hike</a>' 
           infowindow.setContent('<div>' + marker.title + link + '</br></br>Nearest Campground: <a href=' + nearestCampground.url + ' target="_blank">' + nearestCampground.name + '</a></div>');
           // Open the infowindow on the correct marker.
           infowindow.open(map, marker);
         },
         error: function() {
           console.log('Unable to retrieve campground data');
-          var link = '</br></br><a href="' + marker.url +  '" target="_blank">Click for details about this hike</a>' 
+          var link = '</br></br><a href="' + marker.url +  '" target="_blank">Click here for details about this hike</a>' 
           infowindow.setContent('<div>' + marker.title + link + '</br></br>UNABLE TO FIND CAMPGROUND INFO</div>');
           infowindow.open(map, marker);
         }
       });
 
       // Bounce the marker three times
-      // map.panTo(marker.getPosition());
+      map.panTo(marker.getPosition());
       marker.setAnimation(google.maps.Animation.BOUNCE);
       setTimeout(function(){ marker.setAnimation(null); }, 2100);   
     };

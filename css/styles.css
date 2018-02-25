@@ -40,28 +40,18 @@ html, body {
   color: white;
 }
 
-.topnav button {
+/* Style the search/filter dropdown */
+.dropbtn {
+  background-color: #4CAF50;
+  color: white;
   float: right;
   padding: 6px 10px;
   margin-top: 8px;
   margin-right: 16px;
   border: none;
   font-size: 17px;
-}
-
-/* Style the search/filter dropdown */
-.dropbtn {
-  background-color: #4CAF50;
-  color: white;
-  padding: 16px;
-  margin-right: 16px;
-  font-size: 16px;
   border: none;
   cursor: pointer;
-}
-
-.dropbtn:hover, .dropbtn:focus {
-  background-color: #3e8e41;
 }
 
 #filter {
@@ -109,6 +99,7 @@ html, body {
 
 
 @media screen and (max-width: 600px) {
+  .topnav {position: relative;}
   .topnav a {
     float: none;
     display: block;
@@ -118,7 +109,7 @@ html, body {
     padding: 14px;
   }
   .dropbtn {
-    float: right;
+    position: absolute;
     top: 0;
     right: 0;  
   }
