@@ -1,27 +1,19 @@
-<!--
-
-Started from the example in the Getting Started section of the Maps Javascript API documentation
-https://developers.google.com/maps/documentation/javascript/tutorial 
-
-Added a navbar using example from W3 Schools
-https://www.w3schools.com/bootstrap/bootstrap_ref_js_dropdown.asp
-
--->
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Yosemite Dog Hikes Map</title>
+        <title>Dog Hikes Near Yosemite > Home</title>
         <meta name="viewport" content="initial-scale=1.0 user-scalable=no">
         <meta charset="utf-8">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="css/styles.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
         <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>        
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </head>
     <body>
         <div class="topnav">
-            <a class="active" href="#home">Great Dog Hikes Near Yosemite</a>
-            <a href="#about">About</a>
+            <a class="active" href="#home">Dog Hikes Near Yosemite</a>
+            <a href="#" data-toggle="popover" data-placement="bottom" data-trigger="focus" title="Popover Header" data-content="Some content inside the popover">About</a>
             <button data-bind="click: $root.toggleList" class="dropbtn">&#9776;</button>
         </div>
         <div class="dropdown" data-bind="visible: $root.showList">
@@ -31,41 +23,8 @@ https://www.w3schools.com/bootstrap/bootstrap_ref_js_dropdown.asp
                         <li class="list-item" data-bind="text: title, click: $parent.selectMarker"></li>
                     </ul>
                 </div>
-        </div>
-
-<!--
-        <div id="list">
-            <input id="search" type="search" data-bind="textInput: query" autocomplete="off" />
-            <ul id="placeslist" data-bind="foreach: filtered">
-              <li class="list-item" data-bind="text: title, attr: {id: $index}, click: clicky"></li>
-            </ul>
-            <button type="button" data-bind="click: reset">Zoom Out</button>
-        </div>
--->  
-                                                          
+        </div>                                                          
         <div id="map"></div>
-        <script>
-        /* When the user clicks on the button,
-        toggle between hiding and showing the dropdown content */
-        function myFunction() {
-           document.getElementById("dropdownMenu").classList.toggle("show");
-        }
-        
-        function filterFunction() {
-            var input, filter, ul, li, a, i;
-            input = document.getElementById("filter");
-            filter = input.value.toUpperCase();
-            div = document.getElementById("dropdownMenu");
-            a = div.getElementsByTagName("a");
-            for (i = 0; i < a.length; i++) {
-                if (a[i].innerHTML.toUpperCase().indexOf(filter) > -1) {
-                    a[i].style.display = "";
-                } else {
-                    a[i].style.display = "none";
-                }
-            }
-        }
-        </script>
         <script src="js/app.js"></script>
         <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA-_-aQORVlfYz6MtCHDtOG_8289XpcfVg&callback=initialize"></script>
   </body>

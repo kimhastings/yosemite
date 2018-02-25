@@ -42,9 +42,7 @@ html, body {
 
 .topnav button {
   float: right;
-  padding: 6px;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 6px 10px;
   margin-top: 8px;
   margin-right: 16px;
   border: none;
@@ -111,7 +109,7 @@ html, body {
 
 
 @media screen and (max-width: 600px) {
-  .topnav a, .topnav button {
+  .topnav a {
     float: none;
     display: block;
     text-align: left;
@@ -119,7 +117,9 @@ html, body {
     margin: 0;
     padding: 14px;
   }
-  .topnav button {
-    border: 1px solid #ccc;  
+  .dropbtn {
+    float: right;
+    top: 0;
+    right: 0;  
   }
 }

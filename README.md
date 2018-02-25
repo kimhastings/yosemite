@@ -24,14 +24,14 @@ Use CTRL-C to kill the server if needed.
 
 ## Acknowledgments
 
+[Responsive topnav](https://www.w3schools.com/howto/howto_js_topnav_responsive.asp) and [filter dropdown](https://www.w3schools.com/howto/howto_js_filter_dropdown.asp) design courtesy of W3Schools
+
+Unicode character for hamburger icon from [Cory LaViska](https://www.abeautifulsite.net/the-unicode-character-for-menu-icons)
+
 Paw marker icon borrowed from [Puppy Poppins](http://www.puppypoppins.co.uk/)
 
 How to limit marker bounce: [Bounce a marker pin once](https://stackoverflow.com/questions/7339200/bounce-a-pin-in-google-maps-once)
 
 Campground information via the [Active Access Campground API](http://developer.active.com/docs/read/Campground_APIs)
-
-Unicode character for hamburger icon from [Cory LaViska](https://www.abeautifulsite.net/the-unicode-character-for-menu-icons)
-
-Filter dropdown design courtesy of [W3Schools](https://www.w3schools.com/howto/howto_js_filter_dropdown.asp)
 
 Inspiration from these Udacity students: [Sentry71](https://github.com/Sentry71/neighborhood-map), [jshanks24](https://github.com/jshanks24/Udacity-Neighborhood-Map), [gmawji](https://github.com/gmawji/neighborhood-map)

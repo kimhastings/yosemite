@@ -161,6 +161,7 @@ var ViewModel = function() {
         var mapCanvas = document.getElementById('map');
         var mapOptions = {
             center: new google.maps.LatLng(37.6, -119.9),
+            mapTypeId: 'terrain',
             zoom: 9
         };
         map = new google.maps.Map(mapCanvas, mapOptions);
@@ -249,5 +250,10 @@ function populateInfoWindow(marker, infowindow) {
 };
 
 function initialize() {
-    ko.applyBindings(new ViewModel());
+  /* Enable popovers (for About) */
+  $(document).ready(function(){
+      $('[data-toggle="popover"]').popover(); 
+  });
+
+  ko.applyBindings(new ViewModel());
 }
