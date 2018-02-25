@@ -11,39 +11,41 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </head>
     <body>
+        <!-- Navbar -->
         <div class="topnav">
             <a class="active" href="#home">Dog Hikes Near Yosemite</a>
             <a href="#" data-toggle="modal" data-target="#aboutModal">About</a>
             <button data-bind="click: $root.toggleList" class="dropbtn">&#9776;</button>
         </div>
 
-<!-- Modal -->
-<div id="aboutModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
+        <!-- Modal for About -->
+        <div id="aboutModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Dogs and Yosemite</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            Yosemite is a great place to visit, but not so much so for dogs, no matter how well-mannered they are. 
+                            Sadly, dogs are not allowed on trails in the national park 
+                            (you can read more about Yosemite's pet policy 
+                            <a href="https://www.nps.gov/yose/planyourvisit/pets.htm" target="_blank">here</a>).
+                            </br></br>
+                            This map shows hikes near Yosemite, but outside the park boundary, where dogs are welcome.
+                            Happy hiking!
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Dogs and Yosemite</h4>
-      </div>
-      <div class="modal-body">
-        <p>
-            Yosemite is a great place to visit, but not so much so for dogs, no matter how well-mannered they are. 
-            Sadly, dogs are not allowed on trails in the national park.
-            This map shows hikes near Yosemite, but outside the park boundary, where dogs are welcome.
-            Happy hiking!
-        </p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-
+        <!-- List with input box for filtering -->
         <div class="dropdown" data-bind="visible: $root.showList">
                 <div id="dropdownMenu" class="dropdown-content show">
                     <input id="filter" placeholder="Filter.." type="search" data-bind="textInput: query" autocomplete="off">
@@ -51,9 +53,12 @@
                         <li class="list-item" data-bind="text: title, click: $parent.selectMarker"></li>
                     </ul>
                 </div>
-        </div>                                                          
+        </div>
+        
+        <!-- The map at last -->
         <div id="map"></div>
+
         <script src="js/app.js"></script>
         <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA-_-aQORVlfYz6MtCHDtOG_8289XpcfVg&callback=initialize"></script>
-  </body>
+    </body>
 </html>

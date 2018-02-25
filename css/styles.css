@@ -97,7 +97,7 @@ html, body {
 
 .show {display:block;}
 
-
+/* Make the navbar responsive */
 @media screen and (max-width: 600px) {
   .topnav {position: relative;}
   .topnav a {
