@@ -169,6 +169,10 @@ var ViewModel = function() {
     this.initMap();
 };
 
+function getDataForInfoWindow(populateInfoWindow) {
+  
+}
+
 function populateInfoWindow(marker, infowindow) {
     // Check to make sure the infowindow is not already opened on this marker.
     if (infowindow.marker != marker) {
@@ -181,6 +185,7 @@ function populateInfoWindow(marker, infowindow) {
       });
 
       // Find the nearest public campground using the Active Access campground search API
+      var nearestCampground = {};
       $.ajax({
         type: 'GET',
         url: 'https://api.amp.active.com/camping/campgrounds/',
@@ -199,25 +204,44 @@ function populateInfoWindow(marker, infowindow) {
           var doc = $(data.documentElement);
           var contractCode = doc[0].children[0].attributes[3].nodeValue;
           var facilityID = doc[0].children[0].attributes[5].nodeValue;
-          var nearestCampground = {
+          nearestCampground = {
             name: doc[0].children[0].attributes[6].nodeValue,
             url: "https://www.reserveamerica.com/campsiteSearch.do?contractCode=" + contractCode + "&parkId=" + facilityID
           };
           console.log(nearestCampground);
-
-          // Format the infowindow
-          var link = '</br></br><a href="' + marker.url +  '" target="_blank">Click here for details about this hike</a>';
-          infowindow.setContent('<div>' + marker.title + link + '</br></br>Nearest Campground: <a href=' + nearestCampground.url + ' target="_blank">' + nearestCampground.name + '</a></div>');
-          // Open the infowindow on the correct marker.
-          infowindow.open(map, marker);
         },
         error: function() {
           console.log('Unable to retrieve campground data');
-          var link = '</br></br><a href="' + marker.url +  '" target="_blank">Click here for details about this hike</a>'; 
-          infowindow.setContent('<div>' + marker.title + link + '</br></br>UNABLE TO FIND CAMPGROUND INFO</div>');
-          infowindow.open(map, marker);
         }
       });
+
+      // Get current weather using the Dark Sky API
+      var weather = '';
+      var darkSkySecret = '28bbbb992a393debc1cccee6de63d2b2';
+      $.ajax({
+        url: 'https://api.darksky.net/forecast/' + darkSkySecret + '/' + marker.getPosition().lat() + ',' + marker.getPosition().lng(),
+        dataType: 'jsonp',
+        success: function(data) {
+          console.log(data.daily.summary);
+          weather = 'Weather: ' + data.daily.summary;
+        },
+        error: function() {
+          console.log('Unable to retrieve weather data');
+          weather = 'UNABLE TO GET WEATHER INFO';
+        }
+      });
+
+      // Format the infowindow
+      var moreInfo = '<a href="' + marker.url +  '" target="_blank">Click here for details about this hike</a>';
+      if (nearestCampground != {}) {
+        var campground = 'Nearest Campground: <a href=' + nearestCampground.url + ' target="_blank">' + nearestCampground.name + '</a>';
+      } else {
+        var campground = 'UNABLE TO GET CAMPGROUND INFO';
+      };
+
+      infowindow.setContent('<div>' + marker.title + '</br></br>' + moreInfo + '</br></br>' + campground + '</br></br>' + weather + '</div>');
+      // Open the infowindow on the correct marker.
+      infowindow.open(map, marker);    
 
       // Bounce the marker three times
       map.panTo(marker.getPosition());
