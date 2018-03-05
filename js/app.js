@@ -1,6 +1,6 @@
 /* ======= Model (Markers) ======= */
 
-var Model = {
+var model = {
     markers: [
       {
         title: "Ahwahnee Hills Park Trails",
@@ -93,7 +93,7 @@ var Model = {
 
 var map;
 
-var ViewModel = function() {
+var viewModel = function() {
     var self = this;
 
     // KO variables to store list of markers and filter query
@@ -131,7 +131,7 @@ var ViewModel = function() {
     };
 
     // Build the initial map with all markers displayed
-    var largeInfowindow = new google.maps.InfoWindow();
+    var largeInfowindow = new google.maps.InfoWindow({maxWidth: 250});
 
     this.initMap = function() {
         // Draw the map
@@ -149,7 +149,7 @@ var ViewModel = function() {
             scaledSize: new google.maps.Size(20,32),
         };
         // Add the markers
-        Model.markers.forEach(function(marker) {
+        model.markers.forEach(function(marker) {
             var newMarker = new google.maps.Marker({
                 position: {lat: marker.lat, lng: marker.lng},
                 map: map,
@@ -169,10 +169,6 @@ var ViewModel = function() {
     this.initMap();
 };
 
-function getDataForInfoWindow(populateInfoWindow) {
-  
-}
-
 function populateInfoWindow(marker, infowindow) {
     // Check to make sure the infowindow is not already opened on this marker.
     if (infowindow.marker != marker) {
@@ -184,6 +180,12 @@ function populateInfoWindow(marker, infowindow) {
         infowindow.marker = null;
       });
 
+      // Collect info for the infowindow
+      var moreInfo = '<a href="' + marker.url +  '" target="_blank">Click here for details about this hike</a>';
+
+/* 
+ * Not allowed for Udacity assignment because active.com API doesn't support jsonp
+ * 
       // Find the nearest public campground using the Active Access campground search API
       var nearestCampground = {};
       $.ajax({
@@ -209,12 +211,14 @@ function populateInfoWindow(marker, infowindow) {
             url: "https://www.reserveamerica.com/campsiteSearch.do?contractCode=" + contractCode + "&parkId=" + facilityID
           };
           console.log(nearestCampground);
+          var campground = 'Nearest Campground: <a href=' + nearestCampground.url + ' target="_blank">' + nearestCampground.name + '</a>';
         },
         error: function() {
           console.log('Unable to retrieve campground data');
+          var campground = 'UNABLE TO GET CAMPGROUND INFO';
         }
       });
-
+*/
       // Get current weather using the Dark Sky API
       var weather = '';
       var darkSkySecret = '28bbbb992a393debc1cccee6de63d2b2';
@@ -223,25 +227,21 @@ function populateInfoWindow(marker, infowindow) {
         dataType: 'jsonp',
         success: function(data) {
           console.log(data.daily.summary);
-          weather = 'Weather: ' + data.daily.summary;
-        },
+          // Format the infowindow
+          weather = '<em>Current Weather</em>: ' + data.daily.summary;
+          infowindow.setContent('<div><b>' + marker.title + '</b><br><br>' + moreInfo + '<br><br>' + weather + '</div>');
+          // Open the infowindow on the clicked marker.
+          infowindow.open(map, marker);    
+          },
         error: function() {
           console.log('Unable to retrieve weather data');
+          // Format the infowindow
           weather = 'UNABLE TO GET WEATHER INFO';
-        }
+          infowindow.setContent('<div><b>' + marker.title + '</b><br><br>' + moreInfo + '<br><br>' + weather + '</div>');
+          // Open the infowindow on the clicked marker.
+          infowindow.open(map, marker);    
+          }
       });
-
-      // Format the infowindow
-      var moreInfo = '<a href="' + marker.url +  '" target="_blank">Click here for details about this hike</a>';
-      if (nearestCampground != {}) {
-        var campground = 'Nearest Campground: <a href=' + nearestCampground.url + ' target="_blank">' + nearestCampground.name + '</a>';
-      } else {
-        var campground = 'UNABLE TO GET CAMPGROUND INFO';
-      };
-
-      infowindow.setContent('<div>' + marker.title + '</br></br>' + moreInfo + '</br></br>' + campground + '</br></br>' + weather + '</div>');
-      // Open the infowindow on the correct marker.
-      infowindow.open(map, marker);    
 
       // Bounce the marker three times
       map.panTo(marker.getPosition());
@@ -256,5 +256,9 @@ function initialize() {
       $('[data-toggle="popover"]').popover(); 
   });
 
-  ko.applyBindings(new ViewModel());
+  ko.applyBindings(new viewModel());
+}
+
+function mapError() {
+  alert ('Google Maps was unable to load. Please refresh the page and try again');
 }

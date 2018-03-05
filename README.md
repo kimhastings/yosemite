@@ -28,4 +28,6 @@ How to limit marker bounce: [Bounce a marker pin once](https://stackoverflow.com
 
 Campground information via the [Active Access Campground API](http://developer.active.com/docs/read/Campground_APIs)
 
+Weather information via the [Dark Sky API](https://darksky.net/dev)
+
 Inspiration from these Udacity students: [Sentry71](https://github.com/Sentry71/neighborhood-map), [jshanks24](https://github.com/jshanks24/Udacity-Neighborhood-Map), [gmawji](https://github.com/gmawji/neighborhood-map)
