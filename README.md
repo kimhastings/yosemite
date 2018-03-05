@@ -8,7 +8,13 @@ This project was created as an assignment for the Udacity Front-end Nanodegree p
 
 Click [here](https://kimhastings.github.io/yosemite/) to open a hosted version of the map in your browser.
 
-You can also serve the map from your own computer using the Chrome browser. First, install [Web Server for Chrome](https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb?hl=en). Next, download this repository to your computer using the green "Clone or Download" button, and unzip the download. Open *Web Server for Chrome* and choose the folder that you unzipped. Make sure the option box called "Automatically show index.html" is checked. After you start the Web Server, you can open the map at http://127.0.0.1:8887/.
+You can also serve the map from your own computer using the Chrome browser, as follows: 
+
+- Install [Web Server for Chrome](https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb?hl=en)
+- Download this repository to your computer using the green "Clone or Download" button, and unzip the download 
+- Open **_Web Server for Chrome_** and choose the folder that you unzipped 
+- Make sure the option box called "Automatically show index.html" is checked, then start the server
+- After you start the Web Server, you can open the map at http://127.0.0.1:8887/
 
 Alternatively, you can use [these instructions](https://developer.mozilla.org/en-US/docs/Learn/Common_questions/set_up_a_local_testing_server) from our friends at Mozilla to set up a simple local HTTP server. Use CTRL-C to kill the server if needed.
 
