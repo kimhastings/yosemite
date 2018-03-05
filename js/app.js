@@ -228,7 +228,7 @@ function populateInfoWindow(marker, infowindow) {
         success: function(data) {
           console.log(data.daily.summary);
           // Format the infowindow
-          weather = '<em>Current Weather</em>: ' + data.daily.summary;
+          weather = '<em>Current Weather</em>: ' + data.daily.summary + '<br><a href=https://darksky.net/poweredby/ target="_blank">Powered by Dark Sky</a>'
           infowindow.setContent('<div><b>' + marker.title + '</b><br><br>' + moreInfo + '<br><br>' + weather + '</div>');
           // Open the infowindow on the clicked marker.
           infowindow.open(map, marker);    
