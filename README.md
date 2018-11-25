@@ -6,7 +6,7 @@ This project was created as an assignment for the Udacity Front-end Nanodegree p
 
 ## Using the Map
 
-Click [here](https://kimhastings.github.io/yosemite/) to open a hosted version of the map in your browser.
+Click [here](https://kimhastings.github.io/yosemite-dog-hikes/) to open a hosted version of the map in your browser.
 
 You can also serve the map from your own computer using the Chrome browser, as follows: 
 
